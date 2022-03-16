@@ -1,0 +1,50 @@
+{
+    "dependencies": {},
+    "incompatibleApps": {},
+    "info": {
+        "author": [
+            {
+                "company": null,
+                "email": null,
+                "name": "David Connett"
+            }
+        ],
+        "classification": {
+            "categories": [],
+            "developmentStatus": null,
+            "intendedAudience": null
+        },
+        "commonInformationModels": null,
+        "description": "TA that allows Pull-based ingestion from the HelpShift API.",
+        "id": {
+            "group": null,
+            "name": "TA-helpshift-add-on",
+            "version": "0.0.0R9f01694"
+        },
+        "license": {
+            "name": null,
+            "text": null,
+            "uri": null
+        },
+        "privacyPolicy": {
+            "name": null,
+            "text": null,
+            "uri": null
+        },
+        "releaseDate": null,
+        "releaseNotes": {
+            "name": null,
+            "text": null,
+            "uri": null
+        },
+        "title": "HelpShift Add On"
+    },
+    "inputGroups": {},
+    "platformRequirements": {
+        "splunk": {
+            "Enterprise": "*"
+        }
+    },
+    "schemaVersion": "1.0.0",
+    "tasks": []
+}
