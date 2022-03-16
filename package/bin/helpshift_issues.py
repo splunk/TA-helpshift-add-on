@@ -49,17 +49,17 @@ def use_single_instance_mode():
     return True
 '''
 
-class ModInputhelpshift(base_mi.BaseModInput):
+class ModInputhelpshift_issues(base_mi.BaseModInput):
 
     def __init__(self):
         use_single_instance = False
-        super(ModInputhelpshift, self).__init__("ta_helpshift_add_on", "helpshift", use_single_instance)
+        super(ModInputhelpshift_issues, self).__init__("ta_helpshift", "helpshift_issues", use_single_instance)
         self.global_checkbox_fields = None
 
     def get_scheme(self):
         """overloaded splunklib modularinput method"""
-        scheme = super(ModInputhelpshift, self).get_scheme()
-        scheme.title = ("helpshift")
+        scheme = super(ModInputhelpshift_issues, self).get_scheme()
+        scheme.title = ("helpshift_issues")
         scheme.description = ("Go to the add-on\'s configuration UI and configure modular inputs under the Inputs menu.")
         scheme.use_external_validation = True
         scheme.streaming_mode_xml = True
@@ -72,19 +72,19 @@ class ModInputhelpshift(base_mi.BaseModInput):
         For customized inputs, hard code the arguments here to hide argument detail from users.
         For other input types, arguments should be get from input_module. Defining new input types could be easier.
         """
-        scheme.add_argument(smi.Argument("date", title="Date",
-                                         description="Place the date for the last event you want to start indexing from.",
+        scheme.add_argument(smi.Argument("start_date", title="Start Date",
+                                         description="Date you want to start collecting events from. Leave blank to start collection of all events.",
                                          required_on_create=False,
                                          required_on_edit=False))
         return scheme
 
     def get_app_name(self):
-        return "TA-helpshift-add-on"
+        return "TA-helpshift"
 
     def validate_input(helper, definition):
         """Implement your own validation logic to validate the input stanza configurations"""
         # This example accesses the modular input variable
-        # date = definition.parameters.get('date', None)
+        # start_date = definition.parameters.get('start_date', None)
         pass
     
 
@@ -111,16 +111,16 @@ class ModInputhelpshift(base_mi.BaseModInput):
 
             event = helper.new_event(issue, time=None, host=None, index=None, source=None, sourcetype=None, done=True, unbroken=True)
             ew.write_event(event)
-    
-        
+
+            
         """Implement your data collection logic here
     
         # The following examples get the arguments of this input.
         # Note, for single instance mod input, args will be returned as a dict.
         # For multi instance mod input, args will be returned as a single value.
-        opt_date = helper.get_arg('date')
+        opt_start_date = helper.get_arg('start_date')
         # In single instance mode, to get arguments of a particular input, use
-        opt_date = helper.get_arg('date', stanza_name)
+        opt_start_date = helper.get_arg('start_date', stanza_name)
     
         # get input type
         helper.get_input_type()
@@ -142,8 +142,7 @@ class ModInputhelpshift(base_mi.BaseModInput):
         account = helper.get_user_credential_by_username("username")
         account = helper.get_user_credential_by_id("account id")
         # get global variable configuration
-        global_helpshift_domainn = helper.get_global_setting("helpshift_domain")
-        global_api_token = helper.get_global_setting("api_token")
+        global_userdefined_global_var = helper.get_global_setting("userdefined_global_var")
     
         # The following examples show usage of logging related helper functions.
         # write to the log for this modular input using configured global log level or INFO as default
@@ -233,5 +232,5 @@ class ModInputhelpshift(base_mi.BaseModInput):
         return self.global_checkbox_fields
 
 if __name__ == "__main__":
-    exitcode = ModInputhelpshift().run(sys.argv)
+    exitcode = ModInputhelpshift_issues().run(sys.argv)
     sys.exit(exitcode)
