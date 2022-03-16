@@ -2,7 +2,7 @@
     "meta": {
         "name": "TA-helpshift",
         "displayName": "HelpShift",
-        "version": "1.1.0",
+        "version": "0.0.0Rb3fd288",
         "restRoot": "TA_helpshift",
         "schemaVersion": "0.0.3"
     },
@@ -180,7 +180,7 @@
             },
             "services": [
                 {
-                    "template":"input_with_helper",
+                    "template": "input_with_helper",
                     "name": "helpshift_issues",
                     "title": "helpshift_issues",
                     "entity": [
