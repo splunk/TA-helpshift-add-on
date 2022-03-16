@@ -1,9 +1,9 @@
 {
     "meta": {
-        "name": "TA-helpshift-add-on",
-        "displayName": "HelpShift Add On",
-        "version": "1.0.0",
-        "restRoot": "TA_helpshift_add_on",
+        "name": "TA-helpshift",
+        "displayName": "HelpShift",
+        "version": "1.1.0",
+        "restRoot": "TA_helpshift",
         "schemaVersion": "0.0.3"
     },
     "pages": {
@@ -124,45 +124,6 @@
                             "defaultValue": "INFO"
                         }
                     ]
-                },
-                {
-                    "name": "additional_parameters",
-                    "title": "Add-on Settings",
-                    "entity": [
-                        {
-                            "field": "helpshift_domain",
-                            "label": "Helpshift Domain",
-                            "type": "text",
-                            "help": "",
-                            "required": false,
-                            "defaultValue": "",
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "minLength": 0,
-                                    "maxLength": 8192,
-                                    "errorMsg": "Max length of text input is 8192"
-                                }
-                            ]
-                        },
-                        {
-                            "field": "api_token",
-                            "label": "API Token",
-                            "type": "text",
-                            "help": "",
-                            "required": false,
-                            "defaultValue": "",
-                            "encrypted": true,
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "minLength": 0,
-                                    "maxLength": 8192,
-                                    "errorMsg": "Max length of password is 8192"
-                                }
-                            ]
-                        }
-                    ]
                 }
             ]
         },
@@ -206,8 +167,8 @@
                         "label": "Status"
                     },
                     {
-                        "field": "date",
-                        "label": "Date"
+                        "field": "start_date",
+                        "label": "Start Date"
                     }
                 ],
                 "actions": [
@@ -219,8 +180,9 @@
             },
             "services": [
                 {
-                    "name": "helpshift",
-                    "title": "helpshift",
+                    "template":"input_with_helper",
+                    "name": "helpshift_issues",
+                    "title": "helpshift_issues",
                     "entity": [
                         {
                             "field": "name",
@@ -277,12 +239,11 @@
                             ]
                         },
                         {
-                            "field": "date",
-                            "label": "Date",
-                            "help": "Place the date for the last event you want to start indexing from.",
+                            "field": "start_date",
+                            "label": "Start Date",
+                            "help": "Date you want to start collecting events from. Leave blank to start collection of all events.",
                             "required": false,
                             "type": "text",
-                            "defaultValue": "<yyyy/mm/dd>",
                             "validators": [
                                 {
                                     "type": "string",
@@ -290,7 +251,10 @@
                                     "maxLength": 8192,
                                     "errorMsg": "Max length of text input is 8192"
                                 }
-                            ]
+                            ],
+                            "options": {
+                                "placeholder": "<mm/dd/yyyy>"
+                            }
                         }
                     ]
                 }

@@ -1,10 +1,10 @@
 {
   "schemaVersion": "1.0.0",
   "info": {
-    "title": "HelpShift Add On",
+    "title": "HelpShift",
     "id": {
       "group": null,
-      "name": "TA-helpshift-add-on",
+      "name": "TA-helpshift",
       "version": "1.1.0"
     },
     "author": [
@@ -15,7 +15,7 @@
       }
     ],
     "releaseDate": null,
-    "description": "TA that allows Pull-based ingestion from the HelpShift API.",
+    "description": "This is an app that allows consuming REST data from HelpShift.",
     "classification": {
       "intendedAudience": null,
       "categories": [],
