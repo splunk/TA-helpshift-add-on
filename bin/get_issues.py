@@ -100,4 +100,10 @@ if __name__ == '__main__':
     print('api_key: ' + api_key)
     print('api_domain: ' + api_domain)
 
-    get_issues(api_key, api_domain, '2019-01-01', '2019-01-31')
+    issues = get_issues(api_key, api_domain, '2019-01-01', '2019-01-31')
+
+
+    # Loop through issues
+    for issue in issues["issues"]:
+        print(issue)
+        print()
