@@ -85,7 +85,7 @@ def get_issues(api_key, api_domain, start_date, end_date):
     # Print response body
     print(response.text)
 
-    return response.json()
+    return response.json()["issues"]
 
 if __name__ == '__main__':
     main()
@@ -104,6 +104,6 @@ if __name__ == '__main__':
 
 
     # Loop through issues
-    for issue in issues["issues"]:
+    for issue in issues:
         print(issue)
         print()
