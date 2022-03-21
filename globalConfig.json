@@ -2,7 +2,7 @@
     "meta": {
         "name": "TA-helpshift-add-on-for-splunk",
         "displayName": "HelpShift Add On For Splunk",
-        "version": "0.0.0Rae0de58",
+        "version": "0.0.0Rb2b96be",
         "restRoot": "TA_helpshift_add_on_for_splunk",
         "schemaVersion": "0.0.3"
     },
