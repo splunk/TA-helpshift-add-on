@@ -2,7 +2,7 @@
     "meta": {
         "name": "TA-helpshift",
         "displayName": "HelpShift",
-        "version": "0.0.0Rdfb9e16",
+        "version": "0.0.0Rba8d001",
         "restRoot": "TA_helpshift",
         "schemaVersion": "0.0.3"
     },
@@ -21,8 +21,8 @@
                                 "label": "Account name"
                             },
                             {
-                                "field": "username",
-                                "label": "Username"
+                                "field": "helpshift_domain",
+                                "label": "Helpshift Domain"
                             }
                         ],
                         "actions": [
@@ -53,13 +53,13 @@
                             ]
                         },
                         {
-                            "field": "username",
-                            "label": "Username",
+                            "field": "helpshift_domain",
+                            "label": "Helpshift Domain",
                             "type": "text",
                             "required": true,
-                            "help": "Enter the username for this account.",
+                            "help": "Enter the Helpshift Domain for this account.",
                             "options": {
-                                "placeholder": "Enter the username here"
+                                "placeholder": "Enter the domain here <example.helpshift.com>"
                             },
                             "validators": [
                                 {
@@ -71,18 +71,18 @@
                             ]
                         },
                         {
-                            "field": "password",
-                            "label": "Password",
+                            "field": "api_token",
+                            "label": "API Token",
                             "type": "text",
                             "encrypted": true,
                             "required": true,
-                            "help": "Enter the password for this account.",
+                            "help": "Enter the API Token for this account.",
                             "validators": [
                                 {
                                     "type": "string",
                                     "minLength": 1,
                                     "maxLength": 8192,
-                                    "errorMsg": "Length of password should be between 1 and 8192"
+                                    "errorMsg": "Length of token should be between 1 and 8192"
                                 }
                             ]
                         }
@@ -218,51 +218,6 @@
                                 ]
                             },
                             "defaultValue": "INFO"
-                        }
-                    ]
-                },
-                {
-                    "name": "additional_parameters",
-                    "title": "Add-on Settings",
-                    "entity": [
-                        {
-                            "field": "helpshift_domain",
-                            "label": "Helpshift Domain",
-                            "type": "text",
-                            "help": "helpshift",
-                            "required": true,
-                            "defaultValue": "helpshift",
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "minLength": 0,
-                                    "maxLength": 8192,
-                                    "errorMsg": "Max length of text input is 8192"
-                                }
-                            ],
-                            "options": {
-                                "placeholder": "helpshift"
-                            }
-                        },
-                        {
-                            "field": "api_token",
-                            "label": "API Token",
-                            "type": "text",
-                            "help": "",
-                            "required": true,
-                            "defaultValue": "",
-                            "encrypted": true,
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "minLength": 0,
-                                    "maxLength": 8192,
-                                    "errorMsg": "Max length of password is 8192"
-                                }
-                            ],
-                            "options": {
-                                "placeholder": "* * * *"
-                            }
                         }
                     ]
                 }
