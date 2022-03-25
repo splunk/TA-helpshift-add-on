@@ -2,7 +2,7 @@
     "meta": {
         "name": "TA-helpshift",
         "displayName": "HelpShift",
-        "version": "0.0.0R84d4fa3",
+        "version": "0.0.0R33ad58d",
         "restRoot": "TA_helpshift",
         "schemaVersion": "0.0.3"
     },
@@ -233,6 +233,10 @@
                         "label": "Name"
                     },
                     {
+                        "field": "account",
+                        "label": "Helpshift Account"
+                    },
+                    {
                         "field": "interval",
                         "label": "Interval"
                     },
@@ -249,6 +253,10 @@
                     {
                         "field": "name",
                         "label": "Name"
+                    },
+                    {
+                        "field": "account",
+                        "label": "Helpshift Account"
                     },
                     {
                         "field": "interval",
@@ -299,6 +307,16 @@
                                     "errorMsg": "Length of input name should be between 1 and 100"
                                 }
                             ]
+                        },
+                        {
+                            "field": "account",
+                            "label": "Helpshift Account",
+                            "help": "",
+                            "required": true,
+                            "type": "singleSelect",
+                            "options": {
+                                "referenceName": "account"
+                            }
                         },
                         {
                             "field": "interval",
@@ -378,6 +396,16 @@
                                     "errorMsg": "Length of input name should be between 1 and 100"
                                 }
                             ]
+                        },
+                        {
+                            "field": "account",
+                            "label": "Helpshift Account",
+                            "help": "",
+                            "required": true,
+                            "type": "singleSelect",
+                            "options": {
+                                "referenceName": "account"
+                            }
                         },
                         {
                             "field": "interval",
