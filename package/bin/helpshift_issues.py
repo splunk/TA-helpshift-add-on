@@ -66,7 +66,11 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
         scheme.add_argument(smi.Argument("name", title="Name",
                                          description="",
                                          required_on_create=True))
-
+                                            
+        scheme.add_argument(smi.Argument("account", title="Helpshift Account",
+                                         description="",
+                                         required_on_create=True,
+                                         required_on_edit=False))
         """
         For customized inputs, hard code the arguments here to hide argument detail from users.
         For other input types, arguments should be get from input_module. Defining new input types could be easier.
@@ -98,10 +102,14 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
         # helper.log_debug(global_helpshift_domain)
         # helper.log_debug(global_api_token)
 
-        global_helpshift_domain = helper.get_account_fields("account")["helpshift_domain"]
-        global_api_token = helper.get_account_fields("account")["helpshift_domain"]
+        # global_helpshift_domain = helper.get_account_fields("account")["helpshift_domain"]
+        # global_api_token = helper.get_account_fields("account")["helpshift_domain"]
 
         # Get issues from helpshift API
+
+        global_helpshift_domain = helper.get_arg("account")["helpshift_domain"]
+        global_api_token = helper.get_arg("account")["api_token"]
+        
         helper.log_info(f'[dave] Domain: {global_helpshift_domain}')
         helper.log_info(f'[dave] Token: {global_api_token}')
         get_issues_result = get_issues(global_api_token, global_helpshift_domain, '2019-01-01', '2019-01-31', helper)
@@ -216,6 +224,7 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
 
     def get_account_fields(self):
         account_fields = []
+        account_fields.append("account")
         return account_fields
 
     def get_checkbox_fields(self):

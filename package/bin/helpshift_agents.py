@@ -67,6 +67,10 @@ class ModInputhelpshift_agents(base_mi.BaseModInput):
                                          description="",
                                          required_on_create=True))
 
+        scheme.add_argument(smi.Argument("account", title="Helpshift Account",
+                                         description="",
+                                         required_on_create=True,
+                                         required_on_edit=False))
         """
         For customized inputs, hard code the arguments here to hide argument detail from users.
         For other input types, arguments should be get from input_module. Defining new input types could be easier.
@@ -88,8 +92,11 @@ class ModInputhelpshift_agents(base_mi.BaseModInput):
     
 
     def collect_events(helper, ew):
-        global_helpshift_domain = helper.get_global_setting("helpshift_domain")
-        global_api_token = helper.get_global_setting("api_token")
+        #global_helpshift_domain = helper.get_global_setting("helpshift_domain")
+        #global_api_token = helper.get_global_setting("api_token")
+
+        global_helpshift_domain = helper.get_arg("account")["helpshift_domain"]
+        global_api_token = helper.get_arg("account")["api_token"]
         
         # print(global_helpshift_domain)
         # print(global_api_token)
@@ -105,14 +112,21 @@ class ModInputhelpshift_agents(base_mi.BaseModInput):
 
         helper.log_info(f'[dave] agents Result: {get_agents_result}')
 
-        # Write event to Splunk with helper
-        for agent in get_agents_result:
-            # helper.log_debug(agent)
-            # helper.log_debug(type(agent))
-            # helper.log_debug(json.dumps(agent))
-            # helper.new_event(data, time=None, host=None, index=None, source=None, sourcetype=None, done=True, unbroken=True)
-            event = helper.new_event(source=helper.get_input_type(), index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=json.dumps(agent))
-            ew.write_event(event)
+        try:
+            # Write event to Splunk with helper
+            for agent in get_agents_result:
+                # helper.log_info(agent)
+                # helper.log_info(type(agent))
+                # helper.log_info(json.dumps(agent))
+                # helper.log_info(helper.get_sourcetype())
+                # helper.log_info(helper.get_input_type())
+                #helper.new_event(agent, time=None, host=None, index=None, source=None, sourcetype=None, done=True, unbroken=True)
+                event = helper.new_event(source=helper.get_input_type(), index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=json.dumps(agent))
+                ew.write_event(event)
+        except Exception as e:
+            helper.log_info(e)
+            helper.log_debug(traceback.format_exc())
+            raise
 
             
         """Implement your data collection logic here
@@ -213,6 +227,7 @@ class ModInputhelpshift_agents(base_mi.BaseModInput):
 
     def get_account_fields(self):
         account_fields = []
+        account_fields.append("account")
         return account_fields
 
     def get_checkbox_fields(self):
