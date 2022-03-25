@@ -54,7 +54,7 @@ def send_http_request(request):
     response = requests.request(method, url, headers=headers, data=data)
     return response
 
-def get_issues(api_key, api_domain, start_date, end_date):
+def get_issues(api_key, api_domain, start_date, end_date, helper=None):
     """Get issues from HelpShift.
     
     Args:
@@ -77,15 +77,19 @@ def get_issues(api_key, api_domain, start_date, end_date):
 
     url = 'https://api.helpshift.com/v1/{}/issues'.format(api_domain)
 
+    helper.log_info("headers: {}".format(headers))
     request = prepare_http_request(url, 'GET', headers, None)
-    print("request: {}".format(request))
+    helper.log_info("request: {}".format(request))
     response = send_http_request(request)
-    print("response: {}".format(response))
+
+    helper.log_info("response code: {}".format(response.status_code))
+    helper.log_info("response: {}".format(response))
 
     # Print response body
-    print(response.text)
+    helper.log_info(response.text)
 
     return response.json()["issues"]
+
 
 if __name__ == '__main__':
     main()

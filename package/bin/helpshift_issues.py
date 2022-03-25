@@ -1,11 +1,12 @@
 
+from asyncio import events
 import os
 import sys
 import time
 import datetime
 import json
 
-from splunklib import modularinput as smi
+from utility import get_issues
 
 
 
@@ -87,6 +88,33 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
     
 
     def collect_events(helper, ew):
+        global_helpshift_domain = helper.get_global_setting("helpshift_domain")
+        global_api_token = helper.get_global_setting("api_token")
+        
+        # print(global_helpshift_domain)
+        # print(global_api_token)
+        
+        #helper.set_log_level("debug")
+        # helper.log_debug(global_helpshift_domain)
+        # helper.log_debug(global_api_token)
+
+        # Get issues from helpshift API
+        helper.log_info(f'[dave] Domain: {global_helpshift_domain}')
+        helper.log_info(f'[dave] Token: {global_api_token}')
+        get_issues_result = get_issues(global_api_token, global_helpshift_domain, '2019-01-01', '2019-01-31', helper)
+
+        helper.log_info(f'[dave] Issues Result: {get_issues_result}')
+
+        # Write event to Splunk with helper
+        for issue in get_issues_result:
+            # helper.log_debug(issue)
+            # helper.log_debug(type(issue))
+            # helper.log_debug(json.dumps(issue))
+            # helper.new_event(data, time=None, host=None, index=None, source=None, sourcetype=None, done=True, unbroken=True)
+            event = helper.new_event(source=helper.get_input_type(), index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=json.dumps(issue))
+            ew.write_event(event)
+
+            
         """Implement your data collection logic here
     
         # The following examples get the arguments of this input.
