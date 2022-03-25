@@ -1,3 +1,4 @@
 bin/secrets.txt
 output
 .DS_Store
+package/.DS_Store
