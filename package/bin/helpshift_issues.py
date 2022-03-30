@@ -52,7 +52,7 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
 
     def __init__(self):
         use_single_instance = False
-        super(ModInputhelpshift_issues, self).__init__("ta_helpshift", "helpshift_issues", use_single_instance)
+        super(ModInputhelpshift_issues, self).__init__("ta_helpshift_add_on", "helpshift_issues", use_single_instance)
         self.global_checkbox_fields = None
 
     def get_scheme(self):
@@ -82,7 +82,7 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
         return scheme
 
     def get_app_name(self):
-        return "TA-helpshift"
+        return "TA-helpshift-add-on"
 
     def validate_input(helper, definition):
         """Implement your own validation logic to validate the input stanza configurations"""

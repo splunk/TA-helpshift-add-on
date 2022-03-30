@@ -1,9 +1,9 @@
 {
     "meta": {
-        "name": "TA-helpshift",
+        "name": "TA-helpshift-add-on",
         "displayName": "HelpShift",
-        "version": "0.0.0R349d8f4",
-        "restRoot": "TA_helpshift",
+        "version": "1.1.0",
+        "restRoot": "TA_helpshift_add_on",
         "schemaVersion": "0.0.3"
     },
     "pages": {
