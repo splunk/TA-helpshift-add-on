@@ -52,7 +52,7 @@ class ModInputhelpshift_agents(base_mi.BaseModInput):
 
     def __init__(self):
         use_single_instance = False
-        super(ModInputhelpshift_agents, self).__init__("ta_helpshift_add_on", "helpshift_agents", use_single_instance)
+        super(ModInputhelpshift_agents, self).__init__("ta_helpshift_add_on_for_splunk", "helpshift_agents", use_single_instance)
         self.global_checkbox_fields = None
 
     def get_scheme(self):
