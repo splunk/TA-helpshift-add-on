@@ -82,7 +82,7 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
         return scheme
 
     def get_app_name(self):
-        return "TA-helpshift-add-on"
+        return "TA-helpshift-add-on-for-splunk"
 
     def validate_input(helper, definition):
         """Implement your own validation logic to validate the input stanza configurations"""
