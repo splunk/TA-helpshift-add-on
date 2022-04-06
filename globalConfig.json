@@ -1,8 +1,8 @@
 {
     "meta": {
         "name": "TA-helpshift-add-on-for-splunk",
-        "displayName": "HelpShift Add On For Splunk",
-        "version": "0.0.0Raf5fdde",
+        "displayName": "HelpShift",
+        "version": "1.1.1",
         "restRoot": "TA_helpshift_add_on_for_splunk",
         "schemaVersion": "0.0.3"
     },
@@ -21,8 +21,8 @@
                                 "label": "Account name"
                             },
                             {
-                                "field": "username",
-                                "label": "Username"
+                                "field": "helpshift_domain",
+                                "label": "Helpshift Domain"
                             }
                         ],
                         "actions": [
@@ -53,13 +53,13 @@
                             ]
                         },
                         {
-                            "field": "username",
-                            "label": "Username",
+                            "field": "helpshift_domain",
+                            "label": "Helpshift Domain",
                             "type": "text",
                             "required": true,
-                            "help": "Enter the username for this account.",
+                            "help": "Enter the Helpshift Domain for this account.",
                             "options": {
-                                "placeholder": "Enter the username here"
+                                "placeholder": "Enter the domain here <example.helpshift.com>"
                             },
                             "validators": [
                                 {
@@ -71,18 +71,18 @@
                             ]
                         },
                         {
-                            "field": "password",
-                            "label": "Password",
+                            "field": "api_token",
+                            "label": "API Token",
                             "type": "text",
                             "encrypted": true,
                             "required": true,
-                            "help": "Enter the password for this account.",
+                            "help": "Enter the API Token for this account.",
                             "validators": [
                                 {
                                     "type": "string",
                                     "minLength": 1,
                                     "maxLength": 8192,
-                                    "errorMsg": "Length of password should be between 1 and 8192"
+                                    "errorMsg": "Length of token should be between 1 and 8192"
                                 }
                             ]
                         }
@@ -220,51 +220,6 @@
                             "defaultValue": "INFO"
                         }
                     ]
-                },
-                {
-                    "name": "additional_parameters",
-                    "title": "Add-on Settings",
-                    "entity": [
-                        {
-                            "field": "helpshift_domain",
-                            "label": "Helpshift Domain",
-                            "type": "text",
-                            "help": "helpshift",
-                            "required": true,
-                            "defaultValue": "helpshift",
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "minLength": 0,
-                                    "maxLength": 8192,
-                                    "errorMsg": "Max length of text input is 8192"
-                                }
-                            ],
-                            "options": {
-                                "placeholder": "helpshift"
-                            }
-                        },
-                        {
-                            "field": "api_token",
-                            "label": "API Token",
-                            "type": "text",
-                            "help": "",
-                            "required": true,
-                            "defaultValue": "",
-                            "encrypted": true,
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "minLength": 0,
-                                    "maxLength": 8192,
-                                    "errorMsg": "Max length of password is 8192"
-                                }
-                            ],
-                            "options": {
-                                "placeholder": "* * * *"
-                            }
-                        }
-                    ]
                 }
             ]
         },
@@ -276,6 +231,10 @@
                     {
                         "field": "name",
                         "label": "Name"
+                    },
+                    {
+                        "field": "account",
+                        "label": "Helpshift Account"
                     },
                     {
                         "field": "interval",
@@ -296,6 +255,10 @@
                         "label": "Name"
                     },
                     {
+                        "field": "account",
+                        "label": "Helpshift Account"
+                    },
+                    {
                         "field": "interval",
                         "label": "Interval"
                     },
@@ -306,10 +269,6 @@
                     {
                         "field": "disabled",
                         "label": "Status"
-                    },
-                    {
-                        "field": "global_account",
-                        "label": "Global Account"
                     },
                     {
                         "field": "start_date",
@@ -327,7 +286,7 @@
                 {
                     "template": "input_with_helper",
                     "name": "helpshift_issues",
-                    "title": "HelpShift Issues",
+                    "title": "Helpshift Issues",
                     "entity": [
                         {
                             "field": "name",
@@ -348,6 +307,16 @@
                                     "errorMsg": "Length of input name should be between 1 and 100"
                                 }
                             ]
+                        },
+                        {
+                            "field": "account",
+                            "label": "Helpshift Account",
+                            "help": "",
+                            "required": true,
+                            "type": "singleSelect",
+                            "options": {
+                                "referenceName": "account"
+                            }
                         },
                         {
                             "field": "interval",
@@ -384,8 +353,53 @@
                             ]
                         },
                         {
-                            "field": "global_account",
-                            "label": "Global Account",
+                            "field": "start_date",
+                            "label": "Start Date",
+                            "help": "Date you want to start collecting events from. Leave blank to start collection of all events.",
+                            "required": false,
+                            "type": "text",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 8192,
+                                    "errorMsg": "Max length of text input is 8192"
+                                }
+                            ],
+                            "options": {
+                                "placeholder": "<mm/dd/yyyy>"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "template": "input_with_helper",
+                    "name": "helpshift_agents",
+                    "title": "Helpshift Agents",
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Name",
+                            "type": "text",
+                            "help": "Enter a unique name for the data input",
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z]\\w*$",
+                                    "errorMsg": "Input Name must start with a letter and followed by alphabetic letters, digits or underscores."
+                                },
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 100,
+                                    "errorMsg": "Length of input name should be between 1 and 100"
+                                }
+                            ]
+                        },
+                        {
+                            "field": "account",
+                            "label": "Helpshift Account",
                             "help": "",
                             "required": true,
                             "type": "singleSelect",
@@ -394,9 +408,43 @@
                             }
                         },
                         {
+                            "field": "interval",
+                            "label": "Interval",
+                            "type": "text",
+                            "required": true,
+                            "help": "Time interval of input in seconds.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^\\-[1-9]\\d*$|^\\d*$",
+                                    "errorMsg": "Interval must be an integer."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "singleSelect",
+                            "defaultValue": "default",
+                            "options": {
+                                "endpointUrl": "data/indexes",
+                                "createSearchChoice": true,
+                                "denyList": "^_.*$"
+                            },
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80,
+                                    "errorMsg": "Length of index name should be between 1 and 80."
+                                }
+                            ]
+                        },
+                        {
                             "field": "start_date",
                             "label": "Start Date",
-                            "help": "This is the date used to start fetching data. Leave blank to get all data.",
+                            "help": "Date you want to start collecting events from. Leave blank to start collection of all events.",
                             "required": false,
                             "type": "text",
                             "validators": [

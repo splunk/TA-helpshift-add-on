@@ -6,7 +6,7 @@ import time
 import datetime
 import json
 
-from utility import get_issues
+from utility import get_agents
 
 
 
@@ -48,17 +48,17 @@ def use_single_instance_mode():
     return True
 '''
 
-class ModInputhelpshift_issues(base_mi.BaseModInput):
+class ModInputhelpshift_agents(base_mi.BaseModInput):
 
     def __init__(self):
         use_single_instance = False
-        super(ModInputhelpshift_issues, self).__init__("ta_helpshift_add_on_for_splunk", "helpshift_issues", use_single_instance)
+        super(ModInputhelpshift_agents, self).__init__("ta_helpshift_add_on_for_splunk", "helpshift_agents", use_single_instance)
         self.global_checkbox_fields = None
 
     def get_scheme(self):
         """overloaded splunklib modularinput method"""
-        scheme = super(ModInputhelpshift_issues, self).get_scheme()
-        scheme.title = ("helpshift_issues")
+        scheme = super(ModInputhelpshift_agents, self).get_scheme()
+        scheme.title = ("helpshift_agents")
         scheme.description = ("Go to the add-on\'s configuration UI and configure modular inputs under the Inputs menu.")
         scheme.use_external_validation = True
         scheme.streaming_mode_xml = True
@@ -66,7 +66,7 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
         scheme.add_argument(smi.Argument("name", title="Name",
                                          description="",
                                          required_on_create=True))
-                                            
+
         scheme.add_argument(smi.Argument("account", title="Helpshift Account",
                                          description="",
                                          required_on_create=True,
@@ -94,6 +94,9 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
     def collect_events(helper, ew):
         #global_helpshift_domain = helper.get_global_setting("helpshift_domain")
         #global_api_token = helper.get_global_setting("api_token")
+
+        global_helpshift_domain = helper.get_arg("account")["helpshift_domain"]
+        global_api_token = helper.get_arg("account")["api_token"]
         
         # print(global_helpshift_domain)
         # print(global_api_token)
@@ -102,28 +105,28 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
         # helper.log_debug(global_helpshift_domain)
         # helper.log_debug(global_api_token)
 
-        # global_helpshift_domain = helper.get_account_fields("account")["helpshift_domain"]
-        # global_api_token = helper.get_account_fields("account")["helpshift_domain"]
-
-        # Get issues from helpshift API
-
-        global_helpshift_domain = helper.get_arg("account")["helpshift_domain"]
-        global_api_token = helper.get_arg("account")["api_token"]
-        
+        # Get agents from helpshift API
         helper.log_info(f'[dave] Domain: {global_helpshift_domain}')
         helper.log_info(f'[dave] Token: {global_api_token}')
-        get_issues_result = get_issues(global_api_token, global_helpshift_domain, '2019-01-01', '2019-01-31', helper)
+        get_agents_result = get_agents(global_api_token, global_helpshift_domain, '2019-01-01', '2019-01-31', helper)
 
-        helper.log_info(f'[dave] Issues Result: {get_issues_result}')
+        helper.log_info(f'[dave] agents Result: {get_agents_result}')
 
-        # Write event to Splunk with helper
-        for issue in get_issues_result:
-            # helper.log_debug(issue)
-            # helper.log_debug(type(issue))
-            # helper.log_debug(json.dumps(issue))
-            # helper.new_event(data, time=None, host=None, index=None, source=None, sourcetype=None, done=True, unbroken=True)
-            event = helper.new_event(source=helper.get_input_type(), index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=json.dumps(issue))
-            ew.write_event(event)
+        try:
+            # Write event to Splunk with helper
+            for agent in get_agents_result:
+                # helper.log_info(agent)
+                # helper.log_info(type(agent))
+                # helper.log_info(json.dumps(agent))
+                # helper.log_info(helper.get_sourcetype())
+                # helper.log_info(helper.get_input_type())
+                #helper.new_event(agent, time=None, host=None, index=None, source=None, sourcetype=None, done=True, unbroken=True)
+                event = helper.new_event(source=helper.get_input_type(), index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=json.dumps(agent))
+                ew.write_event(event)
+        except Exception as e:
+            helper.log_info(e)
+            helper.log_debug(traceback.format_exc())
+            raise
 
             
         """Implement your data collection logic here
@@ -246,5 +249,5 @@ class ModInputhelpshift_issues(base_mi.BaseModInput):
         return self.global_checkbox_fields
 
 if __name__ == "__main__":
-    exitcode = ModInputhelpshift_issues().run(sys.argv)
+    exitcode = ModInputhelpshift_agents().run(sys.argv)
     sys.exit(exitcode)

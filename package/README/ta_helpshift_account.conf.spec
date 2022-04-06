@@ -1,3 +1,5 @@
 [<name>]
-username = 
-password = 
+username =
+password =
+helpshift_domain =
+api_token =
