@@ -2,6 +2,4 @@ bin/secrets.txt
 output
 .DS_Store
 package/.DS_Store
-TA-helpshift-1.1.0.tar.gz
-TA-helpshift-add-on-for-splunk-1.1.0.tar.gz
-TA-helpshift-1.1.0.tar.gz
+TA-helpshift*
