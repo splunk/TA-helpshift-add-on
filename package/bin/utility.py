@@ -1,5 +1,5 @@
 
-#from asyncio import create_subprocess_shell
+from asyncio import create_subprocess_shell
 import base64
 import os
 import sys
@@ -55,7 +55,7 @@ def send_http_request(request):
     return response
 
 
-def get_issues(api_key, api_domain, start_date, end_date):
+def get_issues(api_key, api_domain, start_date, end_date, helper=None):
     """Get issues from HelpShift.
     
     Args:
@@ -149,7 +149,7 @@ def get_users(api_key, api_domain, start_date, end_date, helper=None):
     return response.json()["users"]
 
 
-def get_agents(api_key, api_domain, start_date, end_date):
+def get_agents(api_key, api_domain, start_date, end_date, helper=None):
     """Get agents from HelpShift.
     
     Args:
