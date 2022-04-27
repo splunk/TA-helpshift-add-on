@@ -1,5 +1,5 @@
 
-from asyncio import create_subprocess_shell
+#from asyncio import create_subprocess_shell
 import base64
 import os
 import sys
@@ -55,7 +55,7 @@ def send_http_request(request):
     return response
 
 
-def get_issues(api_key, api_domain, start_date, end_date, helper=None):
+def get_issues(api_key, api_domain, start_date, end_date):
     """Get issues from HelpShift.
     
     Args:
@@ -68,6 +68,16 @@ def get_issues(api_key, api_domain, start_date, end_date, helper=None):
         json: The issues from HelpShift.
     """
 
+
+    additional_fields = "[\"meta\", \"custom_fields\"]"
+    
+    # Print additional fields
+    #print("Additional fields: {}".format(additional_fields))
+
+    # Add additional fields to url query string
+    #url = 'https://api.helpshift.com/v1/{}/issues?includes={}'.format(api_domain, additional_fields)
+    
+
     # Base64 encode API key
     api_key = base64.b64encode(api_key.encode('utf-8')).decode('utf-8')
 
@@ -76,18 +86,22 @@ def get_issues(api_key, api_domain, start_date, end_date, helper=None):
         'Authorization': 'Basic ' + api_key
     }
 
-    url = 'https://api.helpshift.com/v1/{}/issues'.format(api_domain)
+    # URL Encode additional_fields
 
-    helper.log_info("headers: {}".format(headers))
+    url = 'https://api.helpshift.com/v1/{}/issues?includes={}'.format(api_domain, additional_fields)
+
+    #print("url: {}".format(url))
+
+    #helper.log_info("headers: {}".format(headers))
     request = prepare_http_request(url, 'GET', headers, None)
-    helper.log_info("request: {}".format(request))
+    #helper.log_info("request: {}".format(request))
     response = send_http_request(request)
 
-    helper.log_info("response code: {}".format(response.status_code))
-    helper.log_info("response: {}".format(response))
+    #helper.log_info("response code: {}".format(response.status_code))
+    #helper.log_info("response: {}".format(response))
 
     # Print response body
-    helper.log_info(response.text)
+    #helper.log_info(response.text)
 
     return response.json()["issues"]
 
@@ -135,7 +149,7 @@ def get_users(api_key, api_domain, start_date, end_date, helper=None):
     return response.json()["users"]
 
 
-def get_agents(api_key, api_domain, start_date, end_date, helper=None):
+def get_agents(api_key, api_domain, start_date, end_date):
     """Get agents from HelpShift.
     
     Args:
@@ -185,18 +199,18 @@ if __name__ == '__main__':
     print('api_key: ' + api_key)
     print('api_domain: ' + api_domain)
 
-    # issues = get_issues(api_key, api_domain, '2019-01-01', '2019-01-31', helper)
+    issues = get_issues(api_key, api_domain, '2019-01-01', '2019-01-31')
 
 
     # # Loop through issues
-    # for issue in issues:
-    #     print(issue)
-    #     print()
+    for issue in issues:
+        print(issue)
+        print()
 
-    agents = get_agents(api_key, api_domain, '2019-01-01', '2019-01-31')
+    #agents = get_agents(api_key, api_domain, '2019-01-01', '2019-01-31')
 
 
     # Loop through issues
-    for agent in agents:
-        print(agent)
-        print()
+    # for agent in agents:
+    #     print(agent)
+    #     print()
